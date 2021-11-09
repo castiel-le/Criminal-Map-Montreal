@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://gitlab.com/castiel1309/520-project-le-louis/issues"
   },
-  "homepage": "https://gitlab.com/castiel1309/520-project-le-louis#readme"
+  "homepage": "https://gitlab.com/castiel1309/520-project-le-louis#readme",
+  "dependencies": {
+    "csvtojson": "^2.0.10"
+  }
 }
