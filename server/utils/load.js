@@ -1,8 +1,8 @@
-const csvFilePath = '../server/utils/criminalActs.csv'
 const csv = require('csvtojson')
 
 module.exports = async function load() {
     try {
+        const csvFilePath = '../server/utils/criminalActs.csv'
         const jsonArray = await csv().fromFile(csvFilePath);
         return jsonArray;
     }
