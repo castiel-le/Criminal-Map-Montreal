@@ -10,7 +10,7 @@ async function insertToDB(){
     console.log("Loading dataset")
     const jsonArray = await load(csvFilePath);
     console.log("finished!")
-    await db.connect("CriminalRecord", "CiminalActs");
+    await db.connect("CriminalRecord", "CriminalActs");
     console.log("connected")
     await db.insertMany(jsonArray);
     console.log("parsed")
