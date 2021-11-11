@@ -2,7 +2,7 @@ const load = require("./load");
 const csvFilePath = "./criminalActs";
 const DAO = require("../db/conn");
 
-(async () => {
+async function insertToDB(){
   try {
     const db = new DAO();
     const jsonArray = await load(csvFilePath);
@@ -11,4 +11,6 @@ const DAO = require("../db/conn");
   }catch (e) {
     console.error("Could not connect to db");
   }
-})();
+}
+
+module.exports = insertToDB;
