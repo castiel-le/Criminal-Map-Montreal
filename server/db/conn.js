@@ -6,6 +6,7 @@ const { MongoClient } = require("mongodb");
 let instance = null;
 
 class DAO {
+  //constructor for DAO object
   constructor() {
     if (!instance) {
       instance = this;
@@ -16,6 +17,7 @@ class DAO {
     return instance;
   }
 
+  //connect to MongoDB
   async connect(dbname, collName) {
     if (this.db) {
       return;
@@ -26,15 +28,18 @@ class DAO {
     this.collection = await this.db.collection(collName)
   }
 
+  //insert the parsed dataset into MongoDB 
   async insertMany(array) {
     let result = await this.collection.insertMany(array);
     return result.insertedCount;
   }
 
+  //create indexers for collection
   async createIndex(index){
     return await this.collection.createIndex(index)
   }
 
+  //disconnect from MongoDB
   async disconnect() {
     this.client.close();
   }
