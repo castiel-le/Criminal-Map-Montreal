@@ -3,8 +3,8 @@ const csv = require("csvtojson")
 //read csv file using csvtojson library
 module.exports = async function load(csvFilePath) {
   try {
-    const jsonArray = await csv().fromFile(csvFilePath);
-    jsonArray.filter((element) => {
+    let jsonArray = await csv().fromFile(csvFilePath);
+    jsonArray = jsonArray.filter((element) => {
       //parse the longitude and latitude from string to float
       let longitude = parseFloat(element["LONGITUDE"]);
       let latitude = parseFloat(element["LATITUDE"]);
