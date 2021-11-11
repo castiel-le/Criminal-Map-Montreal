@@ -7,7 +7,9 @@ const index = {"Geo": "2dsphere"}
 async function insertToDB(){
   try {
     const db = new DAO();
+    console.log("Loading dataset")
     const jsonArray = await load(csvFilePath);
+    console.log("finished!")
     await db.connect("CriminalRecord", "CiminalActs");
     console.log("connected")
     await db.insertMany(jsonArray);

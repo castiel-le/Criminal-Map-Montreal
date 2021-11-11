@@ -31,6 +31,7 @@ class DAO {
   //insert the parsed dataset into MongoDB 
   async insertMany(array) {
     let result = await this.collection.insertMany(array);
+    console.log(result.insertedCount)
     return result.insertedCount;
   }
 
