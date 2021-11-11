@@ -6,34 +6,35 @@ const { MongoClient } = require("mongodb");
 let instance = null;
 
 class DAO {
-  constructor() {
-    if (!instance) {
-      instance = this;
-      this.client = new MongoClient(dbUrl);
-      this.db = null;
-      this.collection = null;
+    constructor() {
+        if (!instance) {
+            instance = this;
+            this.client = new MongoClient(dbUrl);
+            this.db = null;
+            this.collection = null;
+        }
+        return instance;
     }
-    return instance;
-  }
 
-  async connect(dbname, collName) {
-    if (this.db) {
-      return;
+    async connect(dbname, collName) {
+        if (this.db) {
+            return;
+        }
+        await this.client.connect();
+        this.db = await this.client.db(dbname);
+        console.log("Successfully connected to MongoDB database " + dbname);
+        this.collection = await this.db.collection(collName)
     }
-    await this.client.connect();
-    this.db = await this.client.db(dbname);
-    console.log("Successfully connected to MongoDB database " + dbname);
-    this.collection = await this.db.collection(collName)
-  }
 
-  async insertMany(array) {
-    let result = await this.collection.insertMany(array);
-    return result.insertedCount;
-  }
+    async insertMany(array) {
+        let result = await this.collection.insertMany(array);
+        //let result = await this.collection.createIndex({})
+        return result.insertedCount;
+    }
 
-  async disconnect() {
-    this.client.close();
-  }
+    async disconnect() {
+        this.client.close();
+    }
 }
 
 module.exports = DAO;
