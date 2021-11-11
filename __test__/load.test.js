@@ -13,3 +13,17 @@ test("validate the length of the array", async () => {
     console.log(testobj)
     expect(testobj.length).toEqual(2)
 })
+
+test("file does not exist", async () =>{
+    expect.assertions(1)
+    try{
+        let testobj = await load("randompath")
+    }catch(e){
+        expect(e.message).toMatch("File does not exist")
+    }
+})
+
+test("wrong format file", async () => {
+        let testobj = await load("./__test__/random.txt")
+        expect(testobj).toEqual([])
+})
