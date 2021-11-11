@@ -28,9 +28,11 @@ class DAO {
 
   async insertMany(array) {
     let result = await this.collection.insertMany(array);
-    //To be continued
-    //let result = await this.collection.createIndex({})
     return result.insertedCount;
+  }
+
+  async createIndex(index){
+    return await this.collection.createIndex(index)
   }
 
   async disconnect() {
