@@ -1,5 +1,5 @@
 const load = require("./load");
-const csvFilePath = "./criminalActs";
+const csvFilePath = "./server/utils/criminalActs.csv";
 const DAO = require("../db/conn");
 
 //insert dataset json array to MongoDB
@@ -9,6 +9,7 @@ async function insertToDB(){
     const jsonArray = await load(csvFilePath);
     await db.connect("CriminalRecord", "CiminalActs");
     await db.insertMany(jsonArray);
+    await db.disconnect();
   }catch (e) {
     console.error("Could not connect to db");
   }
