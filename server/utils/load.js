@@ -14,8 +14,6 @@ module.exports = async function load(csvFilePath) {
        * latitude every criminal case which does not have one.
        */
       if (longitude === 0 || latitude === 0) {
-        //remove the object with longitude and/or latitude of 0
-        // object.splice(index, 1);
         return false;
       }
 
