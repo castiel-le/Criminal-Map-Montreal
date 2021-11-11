@@ -2,6 +2,7 @@ const load = require("./load");
 const csvFilePath = "./criminalActs";
 const DAO = require("../db/conn");
 
+//insert dataset json array to MongoDB
 async function insertToDB(){
   try {
     const db = new DAO();
