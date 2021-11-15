@@ -10,13 +10,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "eslint-plugin-security": "^1.4.0",
     "jest": "^27.3.1",
-    "supertest": "^6.1.6"
+    "supertest": "^6.1.6",
+    "swagger-ui-express": "^4.1.6"
   },
   "dependencies": {
     "compression": "^1.7.4",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "memory-cache": "^0.2.0",
     "mongodb": "^4.1.4",
     "node-cache": "^5.1.2"
   }
