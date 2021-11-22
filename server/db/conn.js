@@ -36,10 +36,38 @@ class DAO {
   }
 
   //create indexers for collection
-  async createIndex(index){
+  async createIndex(index) {
     return await this.collection.createIndex(index)
   }
 
+  async findOne(id) {
+    let result = await this.collection.findOne({ id: id });
+    return result;
+  }
+
+  async findAll() {
+    let result = await this.collection.find();
+    return result.toArray();
+  }
+
+  async findPolygon(northELong, northELat, southWLong, southWLat) {
+    let point1 = [southWLong, southWLat];
+    let point2 = [southWLong, northELat];
+    let point3 = [northELong, northELat];
+    let point4 = [northELong, southWLat];
+    let result = await this.collection.find({
+      geo: {
+        $geoWithin:
+        {
+          $geometry: {
+            type: "Polygon",
+            coordinates: [[point1, point2, point3, point4, point1]]
+          }
+        }
+      }
+    });
+    return result.toArray();
+  }
   //disconnect from MongoDB
   async disconnect() {
     this.client.close();
