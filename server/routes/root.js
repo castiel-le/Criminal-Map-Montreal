@@ -4,20 +4,29 @@ const DAO = require("../db/conn");
 const db = new DAO();
 
 router.get("/all", async function(req, res){
-  let allData = await db.findAll();
-  return res.send(allData);
+  await db.connect("CriminalRecord", "CriminalActs");
+  let response = await db.findAll();
+  return res.send(response);
 });
 
-router.get("/:id", async function(req, res){
+router.get("/case/:id", async function(req, res){
+  await db.connect("CriminalRecord", "CriminalActs");
   if(req.params.id === undefined){
     console.log("No param")
     return res.sendStatus(404)
   } else{
-    return res.send(await db.findOne(req.params.id))
+    try{
+      let singleCase = await db.findSingleCase(req.params.id);
+      console.dir(singleCase);
+      return res.send(singleCase);
+    } catch(e){
+      return res.sendStatus(404)
+    }
   }
 });
 
 router.get("/rectangle", async function(req, res){
+  await db.connect("CriminalRecord", "CriminalActs");
   let neLat = req.params.neLat ? req.params.neLat : 0;
   let neLon = req.params.neLon ? req.params.neLon : 0;
   let swLat = req.params.swLat ? req.params.swLat : 0;

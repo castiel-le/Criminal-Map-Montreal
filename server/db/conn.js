@@ -45,8 +45,8 @@ class DAO {
   }
 
   //Query for one document that has the the id gotten in input
-  async findOne(id) {
-    let result = await this.collection.findOne({ "id": ObjectId(id) });
+  async findSingleCase(id) {
+    let result = await this.collection.findOne({"_id": new ObjectId(id)});
     return result;
   }
 
