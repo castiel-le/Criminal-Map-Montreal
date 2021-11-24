@@ -1,12 +1,30 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+/* eslint-disable max-len */
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const swaggerJSDoc =  require("swagger-jsdoc");
+const swaggerUI =  require("swagger-ui-express");
 
-var rootRouter = require("./routes/root");
+const swaggerDefinition = {
+  openapi: "3.0.0",
+  info: {
+    title: "Express API for a full-stack MERN project",
+    version: "1.0.0",
+  },
+};
 
-var app = express();
+const options = {
+  swaggerDefinition,
+  apis: ["./server/routes/*.js"],
+};
+
+const swaggerSpec = swaggerJSDoc(options)
+
+const rootRouter = require("./routes/root");
+
+let app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -18,8 +36,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-app.use("/", rootRouter);
+app.use("/case", rootRouter);
 
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
