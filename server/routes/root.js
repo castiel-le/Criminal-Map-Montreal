@@ -213,7 +213,7 @@ router.get("/:id", async function(req, res){
       let singleCase = await db.findSingleCase(req.params.id);
       return res.send(singleCase);
     } catch(e){
-      return res.sendStatus(404)
+      return res.send(e);
     }
   }
 });
