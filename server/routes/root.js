@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const DAO = require("../db/conn");
 const db = new DAO();
+const cache = require("memory-cache");
 
 /**
  * @swagger
@@ -50,9 +51,13 @@ const db = new DAO();
  *                       description: coordinate of the crime scence
  *                       example: [-73.62677804694519, 45.567779812980355] 
  */
-router.get("/all", async function(req, res){
+router.get("/all", async function (req, res) {
   await db.connect("CriminalRecord", "CriminalActs");
-  let response = await db.findAll();
+  let response = cache.get("allDoc");
+  if (!response) {
+    response = await db.findAll();
+    cache.put("allDoc", response);
+  }
   return res.send(response);
 });
 
@@ -109,16 +114,20 @@ router.get("/all", async function(req, res){
  *                       description: coordinate of the crime scence
  *                       example: [-73.62677804694519, 45.567779812980355] 
  */
-router.get("/:id", async function(req, res){
+router.get("/:id", async function (req, res) {
   await db.connect("CriminalRecord", "CriminalActs");
-  if(req.params.id === undefined){
+  if (req.params.id === undefined) {
     console.log("No param")
     return res.sendStatus(404)
-  } else{
-    try{
-      let singleCase = await db.findSingleCase(req.params.id);
+  } else {
+    try {
+      let singleCase = cache.get("file");
+      if (!singleCase) {
+        singleCase = await db.findSingleCase(req.params.id);
+        cache.put("file", singleCase);
+      }
       return res.send(singleCase);
-    } catch(e){
+    } catch (e) {
       return res.sendStatus(404)
     }
   }
@@ -195,14 +204,18 @@ router.get("/:id", async function(req, res){
  *                       description: coordinate of the crime scence
  *                       example: [-73.62677804694519, 45.567779812980355] 
  */
-router.get("/area", async function(req, res){
+router.get("/area", async function (req, res) {
   await db.connect("CriminalRecord", "CriminalActs");
   let neLat = req.params.neLat ? req.params.neLat : 0;
   let neLon = req.params.neLon ? req.params.neLon : 0;
   let swLat = req.params.swLat ? req.params.swLat : 0;
   let swLon = req.params.swLon ? req.params.swLon : 0;
-  let polygon = await db.findPolygon(neLat, neLon, swLat, swLon);
-  if(polygon === {}){
+  let polygon = cache.get("rectangle");
+  if (!polygon) {
+    polygon = await db.findPolygon(neLat, neLon, swLat, swLon);
+    cache.put("rectangle", polygon);
+  }
+  if (polygon === {}) {
     return res.sendStatus(404)
   }
   return polygon;
