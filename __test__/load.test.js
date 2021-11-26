@@ -4,8 +4,8 @@ const path = "./__test__/test.csv"
 test("get json file from csv file", async () => {
     let testObj = await load(path)
     console.log(testObj[0])
-    let expected = { "CATEGORIE": "Méfait", "DATE": "2021-04-12", "QUART": "soir", "PDQ": "50", "Geo": { "type": "Point", "coordinates": [-73.62308621281647, 45.49686399748815] } }
-    expect(testObj[0]).toEqual(expected)
+    let expected = { "CATEGORIE": "MÃ©fait", "DATE": "2021-04-12", "QUART": "soir", "PDQ": "50", "Geo": { "type": "Point", "coordinates": [-73.62308621281647, 45.49686399748815] } }
+    expect(testObj[0]).toMatchObject(expected)
 })
 
 test("validate the length of the array", async () => {
@@ -19,7 +19,7 @@ test("file does not exist", async () => {
     try {
         let testObj = await load("randompath")
     } catch (e) {
-        expect(e.message).toMatch("File does not exist")
+        expect(e.message).toMatch("no such file or directory, open 'randompath'")
     }
 })
 
