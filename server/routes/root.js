@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const DAO = require("../db/conn");
 const db = new DAO();
+const cache = require("memory-cache");
 
 /**
  * @swagger
@@ -50,9 +51,13 @@ const db = new DAO();
  *                       description: coordinate of the crime scence
  *                       example: [-73.62677804694519, 45.567779812980355] 
  */
-router.get("/all", async function(req, res){
+router.get("/all", async function (req, res) {
   await db.connect("CriminalRecord", "CriminalActs");
-  let response = await db.findAll();
+  let response = cache.get("allDoc");
+  if (!response) {
+    response = await db.findAll();
+    cache.put("allDoc", response);
+  }
   return res.send(response);
 });
 

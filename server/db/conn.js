@@ -18,7 +18,7 @@ class DAO {
   }
 
   //connect to MongoDB
-  async connect(dbname, collName) {
+  async connect(dbName, collName) {
     //if db exist return 
     if (this.db) {
       return;
@@ -26,8 +26,8 @@ class DAO {
     //Else connect to db
     await this.client.connect();
     //Create db
-    this.db = await this.client.db(dbname);
-    console.log("Successfully connected to MongoDB database " + dbname);
+    this.db = await this.client.db(dbName);
+    console.log("Successfully connected to MongoDB database " + dbName);
     //And create the collection 
     this.collection = await this.db.collection(collName)
   }
@@ -46,7 +46,7 @@ class DAO {
 
   //Query for one document that has the the id gotten in input
   async findSingleCase(id) {
-    let result = await this.collection.findOne({"_id": new ObjectId(id)});
+    let result = await this.collection.findOne({ "_id": new ObjectId(id) });
     return result;
   }
 
