@@ -58,74 +58,6 @@ router.get("/all", async function(req, res){
 
 /**
  * @swagger
- * /{id}:
- *   get:
- *     summary: Retrieve a single case of Criminal Records
- *     description: Retrieve single case from the Criminal Records of Montreal from 2015 until now
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ObjectId of the case in MongoDB to retrieve
- *         schema: 
- *           type: string
- *     responses: 
- *       200:
- *         description: A case of Criminal Records
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 _id:
- *                   type: string
- *                   description: Object ID in MongoDB
- *                   example: "619d4fbf9ef2242d17fee333"
- *                 CATEGORIE:
- *                   type: string
- *                   description: Category of the crime
- *                   example: "Vol de véhicule à moteur"
- *                 DATE:
- *                   type: string
- *                   description: Date of the crime(YYYY-MM-DD)
- *                   example: "2018-09-13"
- *                 QUART:
- *                   type: string
- *                   description: Shift of the crime(jour, soir, nuit)
- *                   example: "jour"
- *                 PDQ:
- *                   type: string
- *                   description: The number of the police department in charge
- *                   example: "30"
- *                 Geo:
- *                   type: object
- *                   properties:
- *                     type:
- *                       type: string
- *                       description: type of the geospatial object
- *                       example: "Point"
- *                     coordinates:
- *                       type: number
- *                       description: coordinate of the crime scence
- *                       example: [-73.62677804694519, 45.567779812980355] 
- */
-router.get("/:id", async function(req, res){
-  await db.connect("CriminalRecord", "CriminalActs");
-  if(req.params.id === undefined){
-    console.log("No param")
-    return res.sendStatus(404)
-  } else{
-    try{
-      let singleCase = await db.findSingleCase(req.params.id);
-      return res.send(singleCase);
-    } catch(e){
-      return res.sendStatus(404)
-    }
-  }
-});
-
-/**
- * @swagger
  * /area:
  *   get:
  *     summary: Retrieve a list of Criminal Records in a rectangle-shaped area
@@ -197,15 +129,88 @@ router.get("/:id", async function(req, res){
  */
 router.get("/area", async function(req, res){
   await db.connect("CriminalRecord", "CriminalActs");
-  let neLat = req.params.neLat ? req.params.neLat : 0;
-  let neLon = req.params.neLon ? req.params.neLon : 0;
-  let swLat = req.params.swLat ? req.params.swLat : 0;
-  let swLon = req.params.swLon ? req.params.swLon : 0;
-  let polygon = await db.findPolygon(neLat, neLon, swLat, swLon);
-  if(polygon === {}){
-    return res.sendStatus(404)
+  let neLat = parseFloat(req.query.neLat)
+  let neLon = parseFloat(req.query.neLon)
+  let swLat = parseFloat(req.query.swLat)
+  let swLon = parseFloat(req.query.swLon)
+  try{
+    let polygon = await db.findPolygon(neLon, neLat, swLon, swLat);
+    if(polygon === {}){
+      return res.sendStatus(404)
+    }
+    return res.send(polygon);
+  }catch(e){
+    return res.send(e.message)
   }
-  return polygon;
 })
+
+
+/**
+ * @swagger
+ * /{id}:
+ *   get:
+ *     summary: Retrieve a single case of Criminal Records
+ *     description: Retrieve single case from the Criminal Records of Montreal from 2015 until now
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ObjectId of the case in MongoDB to retrieve
+ *         schema: 
+ *           type: string
+ *     responses: 
+ *       200:
+ *         description: A case of Criminal Records
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   description: Object ID in MongoDB
+ *                   example: "619d4fbf9ef2242d17fee333"
+ *                 CATEGORIE:
+ *                   type: string
+ *                   description: Category of the crime
+ *                   example: "Vol de véhicule à moteur"
+ *                 DATE:
+ *                   type: string
+ *                   description: Date of the crime(YYYY-MM-DD)
+ *                   example: "2018-09-13"
+ *                 QUART:
+ *                   type: string
+ *                   description: Shift of the crime(jour, soir, nuit)
+ *                   example: "jour"
+ *                 PDQ:
+ *                   type: string
+ *                   description: The number of the police department in charge
+ *                   example: "30"
+ *                 Geo:
+ *                   type: object
+ *                   properties:
+ *                     type:
+ *                       type: string
+ *                       description: type of the geospatial object
+ *                       example: "Point"
+ *                     coordinates:
+ *                       type: number
+ *                       description: coordinate of the crime scence
+ *                       example: [-73.62677804694519, 45.567779812980355] 
+ */
+router.get("/:id", async function(req, res){
+  await db.connect("CriminalRecord", "CriminalActs");
+  if(req.params.id === undefined){
+    console.log("No param")
+    return res.sendStatus(404)
+  } else{
+    try{
+      let singleCase = await db.findSingleCase(req.params.id);
+      return res.send(singleCase);
+    } catch(e){
+      return res.sendStatus(404)
+    }
+  }
+});
 
 module.exports = router;

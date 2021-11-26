@@ -56,26 +56,19 @@ class DAO {
     return result.toArray();
   }
 
-  //Find all document in which the geo is inside the polygon 
-  async findPolygon(neLong, neLat, swLong, swLat) {
-    //Create variable as to not exceed the number of character possible in a line
-    let point1 = [swLong, swLat];
-    let point2 = [swLong, neLat];
-    let point3 = [neLong, neLat];
-    let point4 = [neLong, swLat];
-    //Query to find all document in which the geo respect the query
+  async findPolygon(neLon, neLat, swLon, swLat) {
+    let northEast = [neLon, neLat];
+    let southWest = [swLon, swLat];
     let result = await this.collection.find({
-      geo: {
-        $geoWithin:
-        {
-          $geometry: {
-            type: "Polygon",
-            coordinates: [[point1, point2, point3, point4, point1]]
-          }
+      Geo: {
+        $geoWithin: {
+          $box: [
+            southWest, northEast
+          ]
         }
       }
     });
-    //return the array
+    console.dir(result);
     return result.toArray();
   }
   //disconnect from MongoDB
