@@ -4,6 +4,7 @@ const path = "./__test__/test.csv"
 test("get json file from csv file", async () => {
     let testObj = await load(path)
     console.log(testObj[0])
+    //Categorie is MÃ©fait because of the different encoding
     let expected = { "CATEGORIE": "MÃ©fait", "DATE": "2021-04-12", "QUART": "soir", "PDQ": "50", "Geo": { "type": "Point", "coordinates": [-73.62308621281647, 45.49686399748815] } }
     expect(testObj[0]).toMatchObject(expected)
 })
