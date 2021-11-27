@@ -56,9 +56,11 @@ class DAO {
     return result.toArray();
   }
 
+  //Find all document in which the geo is inside the polygon 
   async findPolygon(neLon, neLat, swLon, swLat) {
     let northEast = [neLon, neLat];
     let southWest = [swLon, swLat];
+    //Changed for box because it's easier to deal with
     let result = await this.collection.find({
       Geo: {
         $geoWithin: {
@@ -68,9 +70,9 @@ class DAO {
         }
       }
     });
-    console.dir(result);
     return result.toArray();
   }
+
   //disconnect from MongoDB
   async disconnect() {
     this.client.close();
