@@ -1,3 +1,8 @@
+/**
+ * Mock the connection to MongoDB and test if the endpoints are reachable
+ * @author Castiel Le & Nael Louis
+ */
+
 const mock = require("jest");
 const request = require("supertest")
 const app = require("../server/app");
@@ -31,7 +36,7 @@ describe("Get all", () => {
     test("Should return all documents", async () => {
         let resultDoc = { "_id": "random" };
         jest.spyOn(DAO.prototype, "findAll").mockResolvedValue(resultDoc);
-        let response = await request(app).get("/case/al");
+        let response = await request(app).get("/case/all");
         console.log(response.body);
         expect(response.text).toEqual(JSON.stringify(resultDoc))
         expect(response.statusCode).toEqual(200);

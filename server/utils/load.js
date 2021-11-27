@@ -1,7 +1,17 @@
+
+/**
+ * Load dataset from csv file, remove unnecessary attributes and return a JSON array
+ * @author Castiel Le & Nael Louis
+ */
+
 const csv = require("csvtojson")
 const fs = require("fs")
 
-//read csv file using csvtojson library
+/**
+ * read csv file using csvtojson library
+ * @param csvFilePath
+ * @return a JSON Array represent the dataset
+ */
 module.exports = async function load(csvFilePath) {
   try {
     //change encoding format to latin1

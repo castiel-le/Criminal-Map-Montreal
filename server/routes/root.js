@@ -1,3 +1,9 @@
+/**
+ * Routers with endpoint send corresponding set of data to Express Application server
+ * Swaggers API Documentation for each endpoints
+ * @author Castiel Le & Nael Louis
+ */
+
 /* eslint-disable max-len */
 const express = require("express");
 const router = express.Router();
@@ -10,7 +16,7 @@ const cache = require("memory-cache");
  * /all:
  *   get:
  *     summary: Retrieve a list of Criminal Records
- *     description: Retrieve a list of Criminal Records of Montreal from 2015 until now
+ *     description: Retrieve a list of Criminal Records of Montreal from 2015 until now. WARNINg: Do NOT excute the query search here(too much data to display)
  *     responses: 
  *       200:
  *         description: A list of Criminal Records
