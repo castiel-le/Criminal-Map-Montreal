@@ -10,7 +10,7 @@ const cache = require("memory-cache");
  * /all:
  *   get:
  *     summary: Retrieve a list of Criminal Records
- *     description: Retrieve a list of Criminal Records of Montreal from 2015 until now
+ *     description: Retrieve a list of Criminal Records of Montreal from 2015 unti now (DO NOT EXECUTE THE QUERY HERE!!!)
  *     responses: 
  *       200:
  *         description: A list of Criminal Records
@@ -171,7 +171,7 @@ router.get("/area", async function (req, res) {
  * /{id}:
  *   get:
  *     summary: Retrieve a single case of Criminal Records
- *     description: Retrieve single case from the Criminal Records of Montreal from 2015 until now
+ *     description: Retrieve single case from the Criminal Records of Montreal from 2015 until now 
  *     parameters:
  *       - in: path
  *         name: id
