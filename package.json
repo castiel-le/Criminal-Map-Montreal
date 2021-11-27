@@ -20,7 +20,8 @@
   "homepage": "https://gitlab.com/castiel1309/520-project-le-louis#readme",
   "dependencies": {
     "csvtojson": "^2.0.10",
-    "jest": "^27.3.1"
+    "jest": "^27.3.1",
+    "supertest": "^6.1.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

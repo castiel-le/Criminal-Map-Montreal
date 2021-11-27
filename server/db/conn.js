@@ -1,8 +1,12 @@
+/**
+ * Connect to DB, perform necessary query(connect, createIndex, find, findOne, insertMany)
+ * @author Castiel Le & Nael Louis
+ */
+
 require("dotenv").config();
 const dbUrl = process.env.ATLAS_URI;
 const { MongoClient, ObjectId } = require("mongodb");
 
-//connecting to the database, creating a collection, inserting many, and disconnecting
 let instance = null;
 
 class DAO {
@@ -17,8 +21,14 @@ class DAO {
     return instance;
   }
 
-  //connect to MongoDB
-  async connect(dbname, collName) {
+  
+  /**
+   * connect to MongoDB
+   * 
+   * @param dbName
+   * @param collName
+   */
+  async connect(dbName, collName) {
     //if db exist return 
     if (this.db) {
       return;
@@ -26,59 +36,82 @@ class DAO {
     //Else connect to db
     await this.client.connect();
     //Create db
-    this.db = await this.client.db(dbname);
-    console.log("Successfully connected to MongoDB database " + dbname);
+    this.db = await this.client.db(dbName);
+    console.log("Successfully connected to MongoDB database " + dbName);
     //And create the collection 
     this.collection = await this.db.collection(collName)
   }
 
-  //insert the parsed dataset into MongoDB 
+
+  /**
+   * insert the parsed dataset into MongoDB
+   * 
+   * @param array
+   */
   async insertMany(array) {
     let result = await this.collection.insertMany(array);
     console.log(result.insertedCount)
     return result.insertedCount;
   }
 
-  //create indexers for collection
+  /**
+   * create indexers for collection
+   * 
+   * @param index
+   */
   async createIndex(index) {
     return await this.collection.createIndex(index)
   }
 
-  //Query for one document that has the the id gotten in input
+
+  /**
+   * Query for one document that has the the id gotten in input
+   * 
+   * @param id
+   */
   async findSingleCase(id) {
-    let result = await this.collection.findOne({"_id": new ObjectId(id)});
+    let result = await this.collection.findOne({ "_id": new ObjectId(id) });
     return result;
   }
 
-  //Query for all the document in the collection
+  /**
+   * Query for all the document in the collection
+   * 
+   */
   async findAll() {
     let result = await this.collection.find();
     return result.toArray();
   }
 
-  //Find all document in which the geo is inside the polygon 
-  async findPolygon(neLong, neLat, swLong, swLat) {
-    //Create variable as to not exceed the number of character possible in a line
-    let point1 = [swLong, swLat];
-    let point2 = [swLong, neLat];
-    let point3 = [neLong, neLat];
-    let point4 = [neLong, swLat];
-    //Query to find all document in which the geo respect the query
+
+  /**
+   * Find all document in which the geo is inside the polygon
+   * 
+   * @param neLon
+   * @param neLat
+   * @param swLon
+   * @param swLat
+   */
+  async findPolygon(neLon, neLat, swLon, swLat) {
+    let northEast = [neLon, neLat];
+    let southWest = [swLon, swLat];
+    //Changed for box because it's easier to deal with
     let result = await this.collection.find({
-      geo: {
-        $geoWithin:
-        {
-          $geometry: {
-            type: "Polygon",
-            coordinates: [[point1, point2, point3, point4, point1]]
-          }
+      Geo: {
+        $geoWithin: {
+          $box: [
+            southWest, northEast
+          ]
         }
       }
     });
-    //return the array
     return result.toArray();
   }
-  //disconnect from MongoDB
+
+  /**
+   * disconnect from MongoDB
+   * 
+   */
   async disconnect() {
     this.client.close();
   }
