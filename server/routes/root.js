@@ -53,9 +53,13 @@ const cache = require("memory-cache");
  */
 router.get("/all", async function (req, res) {
   await db.connect("CriminalRecord", "CriminalActs");
+  //get from cache
   let response = cache.get("allDoc");
+  //if cache empty
   if (!response) {
+    //query the db
     response = await db.findAll();
+    //put into cache for next time
     cache.put("allDoc", response);
   }
   return res.send(response);
@@ -132,19 +136,31 @@ router.get("/all", async function (req, res) {
  *                       description: coordinate of the crime scence
  *                       example: [-73.62677804694519, 45.567779812980355] 
  */
-router.get("/area", async function(req, res){
+router.get("/area", async function (req, res) {
   await db.connect("CriminalRecord", "CriminalActs");
+  //parse values to float
   let neLat = parseFloat(req.query.neLat)
   let neLon = parseFloat(req.query.neLon)
   let swLat = parseFloat(req.query.swLat)
   let swLon = parseFloat(req.query.swLon)
-  try{
-    let polygon = await db.findPolygon(neLon, neLat, swLon, swLat);
-    if(polygon === {}){
+  try {
+    //get the polygon from the cache
+    let polygon = cache.get("rectangle");
+    //If it wasn't cached
+    if (!polygon) {
+      //get from the db
+      polygon = await db.findPolygon(neLon, neLat, swLon, swLat);
+      //insert into cache for next time
+      cache.put("rectangle", polygon);
+    }
+    //polygon return empty cursor
+    if (polygon === {}) {
+      //send 404
       return res.sendStatus(404)
     }
+    //else send polygon 
     return res.send(polygon);
-  }catch(e){
+  } catch (e) {
     return res.send(e.message)
   }
 })
@@ -203,16 +219,26 @@ router.get("/area", async function(req, res){
  *                       description: coordinate of the crime scence
  *                       example: [-73.62677804694519, 45.567779812980355] 
  */
-router.get("/:id", async function(req, res){
+router.get("/:id", async function (req, res) {
   await db.connect("CriminalRecord", "CriminalActs");
-  if(req.params.id === undefined){
+  //check if the id is there
+  if (req.params.id === undefined) {
     console.log("No param")
+    //if it isn't send 404
     return res.sendStatus(404)
-  } else{
-    try{
-      let singleCase = await db.findSingleCase(req.params.id);
+  } else {
+    try {
+      //get from cache
+      let singleCase = cache.get("file");
+      //if doesn't exist in cache
+      if (!singleCase) {
+        //get from db
+        singleCase = await db.findSingleCase(req.params.id);
+        //put in chache
+        cache.put("file", singleCase);
+      }
       return res.send(singleCase);
-    } catch(e){
+    } catch (e) {
       return res.send(e);
     }
   }
