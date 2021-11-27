@@ -1,4 +1,10 @@
+/**
+ * Express Application with route
+ * @author Castiel Le & Nael Louis
+ */
+
 /* eslint-disable max-len */
+
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
@@ -42,10 +48,14 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//any other search query will go to client/build
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
+//route for /case
 app.use("/case", rootRouter);
 
+//route for Swaggers API Documentation
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 // catch 404 and forward to error handler

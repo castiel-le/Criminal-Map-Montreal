@@ -1,9 +1,16 @@
+/**
+ * Perform data insertion to MongoDB
+ * @author Castiel Le & Nael Louis
+ */
+
 const load = require("./load");
 const csvFilePath = "./server/utils/criminalActs.csv";
 const DAO = require("../db/conn");
 const index = { "Geo": "2dsphere" }
 
-//insert dataset json array to MongoDB
+/**
+ * insert dataset json array to MongoDB
+ */
 async function insertToDB() {
   try {
     //create DAO object

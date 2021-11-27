@@ -1,6 +1,12 @@
+/**
+ * Test the load and read of the csv file
+ * @author Castiel Le & Nael Louis
+ */
+
 const { test, expect } = require("@jest/globals")
 const load = require("../server/utils/load.js")
 const path = "./__test__/test.csv"
+
 test("get json file from csv file", async () => {
     let testObj = await load(path)
     console.log(testObj[0])
