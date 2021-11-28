@@ -13,7 +13,7 @@ const cache = require("memory-cache");
 
 /**
  * @swagger
- * /all:
+ * /case/all:
  *   get:
  *     summary: Retrieve a list of Criminal Records
  *     description: Retrieve a list of Criminal Records of Montreal from 2015 until now (DO NOT EXECUTE THE QUERY HERE!!!)
@@ -73,7 +73,7 @@ router.get("/all", async function (req, res) {
 
 /**
  * @swagger
- * /area:
+ * /case/area:
  *   get:
  *     summary: Retrieve a list of Criminal Records in a rectangle-shaped area
  *     description: Retrieve a list from the Criminal Records of Montreal from 2015 until now in a rectangle-shaped area
@@ -174,7 +174,7 @@ router.get("/area", async function (req, res) {
 
 /**
  * @swagger
- * /{id}:
+ * /case/{id}:
  *   get:
  *     summary: Retrieve a single case of Criminal Records
  *     description: Retrieve single case from the Criminal Records of Montreal from 2015 until now 
