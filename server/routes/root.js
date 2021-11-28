@@ -73,7 +73,7 @@ router.get("/all", async function (req, res) {
 
 /**
  * @swagger
- * /case/area:
+ * /case/area/?neLon={neLon}&neLat={neLat}&swLon={swLon}&swLat={swLat}:
  *   get:
  *     summary: Retrieve a list of Criminal Records in a rectangle-shaped area
  *     description: Retrieve a list from the Criminal Records of Montreal from 2015 until now in a rectangle-shaped area
