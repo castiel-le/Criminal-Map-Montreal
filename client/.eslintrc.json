@@ -6,7 +6,9 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:security/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -53,7 +55,7 @@
     "no-tabs": "error",
     "space-infix-ops": "warn",
     "space-unary-ops": "warn",
-    "quotes": "error",
+    "quotes": "off",
     //// react /////
     "react/prop-types": "off"
   }
