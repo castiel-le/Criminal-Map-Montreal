@@ -33,7 +33,7 @@ test("validate the length of the array", async () => {
 test("file does not exist", async () => {
   expect.assertions(1)
   try {
-    let testObj = await load("randompath")
+    await load("randompath")
   } catch (e) {
     expect(e.message).toMatch("ENOENT: no such file or directory, open 'randompath'")
   }
