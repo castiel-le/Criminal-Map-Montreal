@@ -15,7 +15,8 @@ const fs = require("fs")
 module.exports = async function load(csvFilePath) {
   try {
     //change encoding format to latin1
-    let encodedString = fs.readFileSync(csvFilePath, {encoding: "latin1"});
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    let encodedString = fs.readFileSync(csvFilePath, { encoding: "latin1" });
     let jsonArray = await csv().fromString(encodedString);
     jsonArray = jsonArray.filter((element) => {
       //parse the longitude and latitude from string to float
