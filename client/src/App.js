@@ -1,6 +1,5 @@
 import CriminalActsMap from './components/CriminalActsMap'
 import './App.css';
-import CriminalActsMap from './components/CriminalActsMap';
 const config = require("./utils/config");
 
 function App() {

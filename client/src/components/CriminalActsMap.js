@@ -12,6 +12,10 @@ import "react-leaflet-markercluster/dist/styles.min.css";
 export default class CriminalActsMap extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      crimePoints: [],
+      crimePoint: null,
+    }
     
   }
   render() {
