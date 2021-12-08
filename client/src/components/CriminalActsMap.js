@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import React, { Component } from "react";
 import {
   MapContainer,
@@ -13,15 +14,37 @@ export default class CriminalActsMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      crimePoints: [],
-      crimePoint: null,
-    }
-    
+      crimePoints:  [],
+      activeCrimePoint: null,
+    };
+    this.fetchMap = this.fetchMap.bind(this);
   }
+
+  async componentDidMount(){
+    await this.fetchMap();
+  }
+
+  async fetchMap(){
+    let response = await fetch("/case/area/?neLon=-73.59350681304932&neLat=45.51729363571138&swLon= -73.57385158538818&swLat=45.52700557610431");
+    let fullData = await response.json();
+    if (fullData.statusCode === 404){
+      console.log(fullData.statusCode);
+      return; 
+    }
+    let tempArr = [];
+    fullData.map((item, index) => {
+      let coordArr = [item.Geo.coordinates[1], item.Geo.coordinates[0]];
+      tempArr.push(coordArr);
+    });
+    this.setState({
+      crimePoints : tempArr
+    })
+  }
+
   render() {
     return (
       <MapContainer
-        center={this.props.config.center}
+        center={this.props.config.startCenter}
         zoom={this.props.config.initialZoom}
         zoomControl={false}
         style={{ width: "100%", position: "absolute", top: 0, bottom: 0, zIndex: -1, }}
@@ -42,14 +65,20 @@ export default class CriminalActsMap extends Component {
           showCoverageOnHover={true}
           removeOutsideVisibleBounds={false}
           disableClusteringAtZoom={18}>
-          {this.points.map((item, index) =>
+          {this.state.crimePoints.map((item, index) =>
             <CircleMarker
               key={index}
               color={"red"}
               opacity={1}
               radius={5}
               weight={1}
-              center={[item[0], item[1]]} />
+              center={[item[0], item[1]]} 
+              eventHandlers={{
+                click: () => {
+                  this.setState({ activeCrimePoint: item });
+                },
+              }
+              }/>
           )}
         </MarkerClusterGroup>
       </MapContainer>
