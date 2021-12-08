@@ -34,7 +34,7 @@ export default class CriminalActsMap extends Component {
 
   async fetchMap(){
     // eslint-disable-next-line max-len
-    let response = await fetch("/case/area/?neLon=-73.59350681304932&neLat=45.51729363571138&swLon=-73.57385158538818&swLat=45.52700557610431");
+    let response = await fetch("/case/all");
     let fullData = await response.json();
     if (fullData.statusCode === 404){
       console.log(fullData.statusCode);
@@ -83,7 +83,6 @@ export default class CriminalActsMap extends Component {
               center={[item.Geo.coordinates[1], item.Geo.coordinates[0]]} 
               eventHandlers={{
                 click: () => {
-                  console.log(item);
                   this.setState({ activeCrimePoint: item });
                 },
               }
