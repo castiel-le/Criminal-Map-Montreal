@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, {Component} from "react";
 
 export default class CrimeTooltip extends Component {
@@ -7,7 +8,11 @@ export default class CrimeTooltip extends Component {
 
   render() {
     return (
-      <div><p>here</p></div>
+      <div>
+        <p><b>{this.props.selected.CATEGORIE}</b></p>
+        <p>{this.props.selected.DATE}, {this.props.selected.QUART}</p>
+        <p>PDQ: {this.props.selected.PDQ}</p>
+      </div>
     );
   }
 }
