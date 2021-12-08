@@ -9,6 +9,7 @@ import {
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
+import CrimeTooltip from "./CrimeTooltip";
 
 export default class CriminalActsMap extends Component {
   constructor(props) {
@@ -18,14 +19,22 @@ export default class CriminalActsMap extends Component {
       activeCrimePoint: null,
     };
     this.fetchMap = this.fetchMap.bind(this);
+    this.onClose = this.onClose.bind(this);
   }
 
   async componentDidMount(){
     await this.fetchMap();
   }
 
+  onClose() {
+    this.setState({
+      activeCrimePoint: null,
+    });
+  }
+
   async fetchMap(){
-    let response = await fetch("/case/area/?neLon=-73.59350681304932&neLat=45.51729363571138&swLon= -73.57385158538818&swLat=45.52700557610431");
+    // eslint-disable-next-line max-len
+    let response = await fetch("/case/area/?neLon=-73.59350681304932&neLat=45.51729363571138&swLon=-73.57385158538818&swLat=45.52700557610431");
     let fullData = await response.json();
     if (fullData.statusCode === 404){
       console.log(fullData.statusCode);
@@ -33,8 +42,7 @@ export default class CriminalActsMap extends Component {
     }
     let tempArr = [];
     fullData.map((item, index) => {
-      let coordArr = [item.Geo.coordinates[1], item.Geo.coordinates[0]];
-      tempArr.push(coordArr);
+      tempArr.push(item);
     });
     this.setState({
       crimePoints : tempArr
@@ -72,15 +80,23 @@ export default class CriminalActsMap extends Component {
               opacity={1}
               radius={5}
               weight={1}
-              center={[item[0], item[1]]} 
+              center={[item.Geo.coordinates[1], item.Geo.coordinates[0]]} 
               eventHandlers={{
                 click: () => {
+                  console.log(item);
                   this.setState({ activeCrimePoint: item });
                 },
               }
               }/>
           )}
         </MarkerClusterGroup>
+        {
+          this.state.activeCrimePoint !== null ? 
+            // eslint-disable-next-line max-len
+            <Popup position={[this.state.activeCrimePoint.Geo.coordinates[1], this.state.activeCrimePoint.Geo.coordinates[0]]} onClose={this.onClose} >
+              <CrimeTooltip selected={this.state.activeCrimePoint}/>
+            </Popup> : null
+        }
       </MapContainer>
     );
   }
