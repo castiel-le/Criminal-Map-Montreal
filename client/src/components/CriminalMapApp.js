@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import configs from '../utils/config';
 import CriminalActsMap from './CriminalActsMap';
 

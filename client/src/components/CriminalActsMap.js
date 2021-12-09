@@ -1,5 +1,5 @@
 /* eslint-disable security/detect-object-injection */
-import React, { Component } from "react";
+import { Component } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -60,7 +60,7 @@ export default class CriminalActsMap extends Component {
       return; 
     }
     let tempArr = [];
-    fullData.map((item, index) => {
+    fullData.map((item) => {
       tempArr.push(item);
     });
     return tempArr;

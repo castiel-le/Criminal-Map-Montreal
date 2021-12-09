@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, {Component} from "react";
+import {Component} from "react";
 
 export default class CrimeTooltip extends Component {
   constructor(props) {
