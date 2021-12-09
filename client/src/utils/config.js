@@ -10,7 +10,7 @@ let configs = {
   startCenter: [45.50321887154943, -73.60462188720703],
   startBounds: bounds,
   initialZoom: 14,
-  minZoom: 10,
+  minZoom: 12,
   maxZoom: 18
 };
 
