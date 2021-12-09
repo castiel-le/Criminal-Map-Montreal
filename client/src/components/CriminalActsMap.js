@@ -21,7 +21,6 @@ export default class CriminalActsMap extends Component {
     };
     this.fetchMap = this.fetchMap.bind(this);
     this.onClose = this.onClose.bind(this);
-    console.log(this.props.action);
   }
 
   async componentDidMount(){
@@ -29,8 +28,7 @@ export default class CriminalActsMap extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if (!prevProps.config.startBounds.contains(this.props.config.startBounds)) {
-      console.log("here");
+    if (prevProps.bounds !== this.props.bounds) {
       await this.fetchMap();
     }
   }
@@ -42,12 +40,13 @@ export default class CriminalActsMap extends Component {
   }
 
   async fetchMap() {
-    let allBounds = this.props.config.startBounds.toBBoxString().split(",");
+    let allBounds = this.props.bounds.toBBoxString().split(",");
     // eslint-disable-next-line max-len
-    console.log(`/case/area/?neLon=${allBounds[3]}&neLat=${allBounds[2]}&swLon=${allBounds[1]}&swLat=${allBounds[0]}`);
+    console.log(allBounds);
     // eslint-disable-next-line max-len
     let response = await fetch(`/case/area/?neLon=${allBounds[3]}&neLat=${allBounds[2]}&swLon=${allBounds[1]}&swLat=${allBounds[0]}`);
     let fullData = await response.json();
+    console.log(fullData)
     if (fullData.statusCode === 404){
       console.log(fullData.statusCode);
       return; 
@@ -109,7 +108,7 @@ export default class CriminalActsMap extends Component {
               <CrimeTooltip selected={this.state.activeCrimePoint}/>
             </Popup> : null
         }
-        <MapMove action={this.props.action}></MapMove>
+        <MapMove action={this.props.action}/>
       </MapContainer>
     );
   }
