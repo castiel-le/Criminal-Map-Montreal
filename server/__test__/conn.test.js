@@ -2,8 +2,6 @@
  * Mock the connection to MongoDB and test if the endpoints are reachable
  * @author Castiel Le & Nael Louis
  */
-
-const mock = require("jest");
 const request = require("supertest")
 const app = require("../app");
 const DAO = require("../db/conn");
