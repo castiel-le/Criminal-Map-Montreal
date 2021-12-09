@@ -24,12 +24,18 @@ export default class CriminalActsMap extends Component {
   }
 
   async componentDidMount(){
-    await this.fetchMap();
+    let tempArr = await this.fetchMap();
+    this.setState({
+      crimePoints: tempArr
+    })
   }
 
   async componentDidUpdate(prevProps) {
     if (prevProps.bounds !== this.props.bounds) {
-      await this.fetchMap();
+      let newCrimePoints = await this.fetchMap();
+      this.setState({
+        crimePoints: newCrimePoints,
+      });
     }
   }
 
@@ -44,7 +50,9 @@ export default class CriminalActsMap extends Component {
     // eslint-disable-next-line max-len
     console.log(allBounds);
     // eslint-disable-next-line max-len
-    let response = await fetch(`/case/area/?neLon=${allBounds[3]}&neLat=${allBounds[2]}&swLon=${allBounds[1]}&swLat=${allBounds[0]}`);
+    let response = await fetch(`/case/area/?neLon=${allBounds[2]}&neLat=${allBounds[3]}&swLon=${allBounds[0]}&swLat=${allBounds[1]}`);
+    // eslint-disable-next-line max-len
+    console.log(`/case/area/?neLon=${allBounds[2]}&neLat=${allBounds[3]}&swLon=${allBounds[0]}&swLat=${allBounds[1]}`);
     let fullData = await response.json();
     console.log(fullData)
     if (fullData.statusCode === 404){
@@ -55,10 +63,7 @@ export default class CriminalActsMap extends Component {
     fullData.map((item, index) => {
       tempArr.push(item);
     });
-    console.log(tempArr);
-    this.setState({
-      crimePoints : tempArr
-    })
+    return tempArr;
   }
 
   render() {
