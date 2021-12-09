@@ -104,7 +104,7 @@ class DAO {
           ]
         }
       }
-    });
+    }).limit(1000);
     return result.toArray();
   }
 
