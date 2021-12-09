@@ -12,14 +12,16 @@ export default class CriminalMapApp extends Component {
   }
    
   onMove(newBounds) {
+    console.log(this.state.bounds);
     this.setState({
       bounds: newBounds,
     });
+    console.log(this.state.bounds);
   }
 
   render() {
     return (
-      <CriminalActsMap action={this.onMove} config={configs}/>
+      <CriminalActsMap action={this.onMove} config={configs} bounds={this.state.bounds}/>
     )
   }
 
