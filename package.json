@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node client/index.js",
+    "start": "node client/App.js",
     "watch": "nodemon server/server.js",
     "build": "cd client && npm install && npm run build && cd ../server && npm install"
   },
