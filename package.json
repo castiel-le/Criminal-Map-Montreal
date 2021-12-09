@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node server/server.js",
-    "watch": "nodemon server/server.js"
+    "start": "node server/server.js && client/react-scripts start",
+    "watch": "nodemon server/server.js",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install"
   },
   "repository": {
     "type": "git",
