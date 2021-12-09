@@ -79,7 +79,7 @@ class DAO {
    * 
    */
   async findAll() {
-    let result = await this.collection.find().limit(100);
+    let result = await this.collection.find().limit(1000);
     return result.toArray();
   }
 
