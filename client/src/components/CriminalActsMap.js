@@ -1,4 +1,4 @@
-/* eslint-disable security/detect-object-injection */
+/* eslint-disable max-len */
 import { Component } from "react";
 import {
   MapContainer,
@@ -47,11 +47,8 @@ export default class CriminalActsMap extends Component {
 
   async fetchMap() {
     let allBounds = this.props.bounds.toBBoxString().split(",");
-    // eslint-disable-next-line max-len
     console.log(allBounds);
-    // eslint-disable-next-line max-len
     let response = await fetch(`/case/area/?neLon=${allBounds[2]}&neLat=${allBounds[3]}&swLon=${allBounds[0]}&swLat=${allBounds[1]}`);
-    // eslint-disable-next-line max-len
     console.log(`/case/area/?neLon=${allBounds[2]}&neLat=${allBounds[3]}&swLon=${allBounds[0]}&swLat=${allBounds[1]}`);
     let fullData = await response.json();
     console.log(fullData)
@@ -108,7 +105,6 @@ export default class CriminalActsMap extends Component {
         </MarkerClusterGroup>
         {
           this.state.activeCrimePoint !== null ? 
-            // eslint-disable-next-line max-len
             <Popup position={[this.state.activeCrimePoint.Geo.coordinates[1], this.state.activeCrimePoint.Geo.coordinates[0]]} onClose={this.onClose} >
               <CrimeTooltip selected={this.state.activeCrimePoint}/>
             </Popup> : null
