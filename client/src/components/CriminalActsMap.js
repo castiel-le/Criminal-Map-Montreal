@@ -10,6 +10,7 @@ import MarkerClusterGroup from "react-leaflet-markercluster";
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-markercluster/dist/styles.min.css";
 import CrimeTooltip from "./CrimeTooltip";
+import MapMove from "./MapMove";
 
 export default class CriminalActsMap extends Component {
   constructor(props) {
@@ -23,7 +24,19 @@ export default class CriminalActsMap extends Component {
   }
 
   async componentDidMount(){
-    await this.fetchMap();
+    let tempArr = await this.fetchMap();
+    this.setState({
+      crimePoints: tempArr
+    })
+  }
+
+  async componentDidUpdate(prevProps) {
+    if (prevProps.bounds !== this.props.bounds) {
+      let newCrimePoints = await this.fetchMap();
+      this.setState({
+        crimePoints: newCrimePoints,
+      });
+    }
   }
 
   onClose() {
@@ -32,10 +45,16 @@ export default class CriminalActsMap extends Component {
     });
   }
 
-  async fetchMap(){
+  async fetchMap() {
+    let allBounds = this.props.bounds.toBBoxString().split(",");
     // eslint-disable-next-line max-len
-    let response = await fetch("/case/all");
+    console.log(allBounds);
+    // eslint-disable-next-line max-len
+    let response = await fetch(`/case/area/?neLon=${allBounds[2]}&neLat=${allBounds[3]}&swLon=${allBounds[0]}&swLat=${allBounds[1]}`);
+    // eslint-disable-next-line max-len
+    console.log(`/case/area/?neLon=${allBounds[2]}&neLat=${allBounds[3]}&swLon=${allBounds[0]}&swLat=${allBounds[1]}`);
     let fullData = await response.json();
+    console.log(fullData)
     if (fullData.statusCode === 404){
       console.log(fullData.statusCode);
       return; 
@@ -44,9 +63,7 @@ export default class CriminalActsMap extends Component {
     fullData.map((item, index) => {
       tempArr.push(item);
     });
-    this.setState({
-      crimePoints : tempArr
-    })
+    return tempArr;
   }
 
   render() {
@@ -96,6 +113,7 @@ export default class CriminalActsMap extends Component {
               <CrimeTooltip selected={this.state.activeCrimePoint}/>
             </Popup> : null
         }
+        <MapMove action={this.props.action}/>
       </MapContainer>
     );
   }

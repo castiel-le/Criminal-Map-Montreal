@@ -1,11 +1,10 @@
-import CriminalActsMap from './components/CriminalActsMap'
+import CriminalMapApp from './components/CriminalMapApp'
 import './App.css';
-const config = require("./utils/config");
 
 function App() {
   return (
     <div className="App">
-      <CriminalActsMap config={config}/>
+      <CriminalMapApp/>
     </div>
   );
 }
