@@ -149,15 +149,16 @@ router.get("/area", async function (req, res) {
   let neLon = parseFloat(req.query.neLon)
   let swLat = parseFloat(req.query.swLat)
   let swLon = parseFloat(req.query.swLon)
+  
   try {
     //get the polygon from the cache
-    let polygon = cache.get("rectangle");
+    let polygon = cache.get("rectangle" + neLat + swLon);
     //If it wasn't cached
     if (!polygon) {
       //get from the db
       polygon = await db.findPolygon(neLon, neLat, swLon, swLat);
       //insert into cache for next time
-      cache.put("rectangle", polygon);
+      cache.put("rectangle" + neLat + swLon, polygon);
     }
     //polygon return empty cursor
     if (polygon === {}) {
@@ -235,13 +236,13 @@ router.get("/:id", async function (req, res) {
   } else {
     try {
       //get from cache
-      let singleCase = cache.get("file");
+      let singleCase = cache.get("file" + req.params.id);
       //if doesn't exist in cache
       if (!singleCase) {
         //get from db
         singleCase = await db.findSingleCase(req.params.id);
         //put in chache
-        cache.put("file", singleCase);
+        cache.put("file" + req.params.id, singleCase);
       }
       return res.send(singleCase);
     } catch (e) {
