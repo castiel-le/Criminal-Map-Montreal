@@ -18,10 +18,10 @@ export default class CriminalActsMap extends Component {
     this.state = {
       crimePoints:  [],
       activeCrimePoint: null,
-      bounds: this.props.config.startBounds,
     };
     this.fetchMap = this.fetchMap.bind(this);
     this.onClose = this.onClose.bind(this);
+    console.log(this.props.action);
   }
 
   async componentDidMount(){
@@ -29,7 +29,8 @@ export default class CriminalActsMap extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if (prevProps.config.startBounds !== this.props.config.startBounds) {
+    if (!prevProps.config.startBounds.contains(this.props.config.startBounds)) {
+      console.log("here");
       await this.fetchMap();
     }
   }
