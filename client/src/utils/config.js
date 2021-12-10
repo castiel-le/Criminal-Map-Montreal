@@ -9,8 +9,8 @@ let configs = {
   tileUrl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   startCenter: [45.50321887154943, -73.60462188720703],
   startBounds: bounds,
-  initialZoom: 14,
-  minZoom: 12,
+  initialZoom: 16,
+  minZoom: 14,
   maxZoom: 18
 };
 
