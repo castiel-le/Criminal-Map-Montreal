@@ -149,14 +149,14 @@ router.get("/area", async function (req, res) {
   let neLon = parseFloat(req.query.neLon)
   let swLat = parseFloat(req.query.swLat)
   let swLon = parseFloat(req.query.swLon)
-  
+  let projection = { Geo: 1}
   try {
     //get the polygon from the cache
     let polygon = cache.get("rectangle" + neLat + swLon);
     //If it wasn't cached
     if (!polygon) {
       //get from the db
-      polygon = await db.findPolygon(neLon, neLat, swLon, swLat);
+      polygon = await db.findPolygon(neLon, neLat, swLon, swLat, projection);
       //insert into cache for next time
       cache.put("rectangle" + neLat + swLon, polygon);
     }
