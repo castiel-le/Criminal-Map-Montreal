@@ -92,7 +92,7 @@ class DAO {
    * @param swLon
    * @param swLat
    */
-  async findPolygon(neLon, neLat, swLon, swLat, projection) {
+  async findPolygon(neLon, neLat, swLon, swLat) {
     let northEast = [neLon, neLat];
     let southWest = [swLon, swLat];
     //Changed for box because it's easier to deal with
@@ -104,7 +104,7 @@ class DAO {
           ]
         }
       }
-    }).project(projection).limit(5000);
+    }).limit(1000);
     return result.toArray();
   }
 
