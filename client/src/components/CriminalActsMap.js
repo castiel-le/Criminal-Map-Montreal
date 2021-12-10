@@ -1,3 +1,8 @@
+/**
+ * Main map for the application
+ * @author Castiel Le & Nael Louis
+ */
+
 /* eslint-disable max-len */
 import { Component } from "react";
 import {
@@ -12,9 +17,15 @@ import "react-leaflet-markercluster/dist/styles.min.css";
 import CrimeTooltip from "./CrimeTooltip";
 import MapMove from "./MapMove";
 
+
 export default class CriminalActsMap extends Component {
+  /**
+   * Constructor of the class
+   * @param props 
+   */
   constructor(props) {
     super(props);
+    //initialize the state
     this.state = {
       crimePoints:  [],
       activeCrimePoint: null,
@@ -23,6 +34,9 @@ export default class CriminalActsMap extends Component {
     this.onClose = this.onClose.bind(this);
   }
 
+  /**
+   * Call fetchMap in the life cycle when the component is mounted and set state with fetched data
+   */
   async componentDidMount(){
     let tempArr = await this.fetchMap();
     this.setState({
@@ -30,6 +44,10 @@ export default class CriminalActsMap extends Component {
     })
   }
 
+  /**
+   * Call fetch upon update in the life cycle and set state with the new fetched data
+   * @param prevProps 
+   */
   async componentDidUpdate(prevProps) {
     if (prevProps.bounds !== this.props.bounds) {
       let newCrimePoints = await this.fetchMap();
@@ -39,12 +57,19 @@ export default class CriminalActsMap extends Component {
     }
   }
 
+  /**
+   * Close the popup
+   */
   onClose() {
     this.setState({
       activeCrimePoint: null,
     });
   }
 
+  /**
+   * fetch the object array in the corresponding area from server
+   * @returns 
+   */
   async fetchMap() {
     let allBounds = this.props.bounds.toBBoxString().split(",");
     console.log(allBounds);
@@ -63,6 +88,10 @@ export default class CriminalActsMap extends Component {
     return tempArr;
   }
 
+  /**
+   * Display the main map for the application
+   * @returns 
+   */
   render() {
     return (
       <MapContainer
