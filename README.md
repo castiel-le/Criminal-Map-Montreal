@@ -2,90 +2,40 @@
 
 A full-stack MERN application with visualization of the given dataset, as well as some performance considerations
 
-## Getting started
+## Dataset 
+Taken from Montreal's website [Montreal Crime Dataset](https://donnees.montreal.ca/ville-de-montreal/actes-criminels).
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Lighthouse
+We got an overall performance of 99 with a speed index of 97, an accessibility 90, a best practices of a 100, all other score were in the green. Time to interactive is 0.8 s and speed index of 0.9 s. The largest Contentful Paint took 1.3 s.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Network 
+### No Throttling && disabled cache
 
-## Add your files
+DOMContentLoad 616 ms and load 1.07 s.
 
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+The first query to the network take 93 ms and then takes longer as we move (goes up to 3.5 s when zooming out).
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/castiel1309/520-project-le-louis.git
-git branch -M main
-git push -uf origin main
-```
+### No Throttling && disabled cache
+DOMContentLoaded 283 ms and Load 492 ms.
 
-## Integrate with your tools
+Showing to be significantly faster with the cache enabled, the first query takes 2 ms and it goes up to 2.42 s when zooming out. 
 
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/user/project/integrations/)
+### Slow 3G && disabled cache
+DOMContentLoaded takes 6.30 s and load 13.98 s
 
-## Collaborate with your team
+first query take  2.16 s showing a significant difference with no throttling. Then it goes upt to 4.25 second for another. We can also see a significant change in the download of the content in the queries wichi take 2.10 s (1.30 s longer than before).
 
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+### Slow 3G && enable cache
+DOMContentLoaded 2.32 s and Load 2.49 s
 
-## Test and Deploy
+It's a lot faster with the cache enabled like we can see with the nearly 4 seconds of difference in the DOMContentLoaded.
 
-Use the built-in continuous integration in GitLab.
+The first query takes around 3 ms the ngoes up to 14 s when zooming out.
 
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://docs.gitlab.com/ee/user/clusters/agent/)
+## Performance 
+A lot of dropped frame when we move around (High cpu activity and network activity, it takes around 5.10 s(146.24 ms network transfe + 4.95 s resource loading) to fetch the data)
 
-***
+CPU is maxed out at the scripting and goes high for the loading.
 
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://gitlab.com/-/experiment/new_project_readme_content:a7adfdc3a2a09f584d3e633a317690d7?https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
+Performance is better in incognito, it loads a lot faster. The frame are dropped a lot faster than in the regullar browser window. 
+(High network activity but a lot fasster than the regular window(it takes around 913.55ms (518.55 ms network transfer + 394.73 ms resource loading) to fetch the data)).
