@@ -5,7 +5,9 @@ import {
   useMapEvents,
 } from "react-leaflet";
 
-//react-leaflet hook
+/* 
+ * react-leaflet hook
+ */
 function Bounds(props) {
   const mapEvents = useMapEvents({
     "moveend": () => {
