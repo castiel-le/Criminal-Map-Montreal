@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "~1.4.4",
+    "csvtojson": "^2.0.10",
+    "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
+    "express": "^4.16.4",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "memory-cache": "^0.2.0",
+    "mongodb": "^4.2.0",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.15",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.2.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-security": "^1.4.0",
+    "jest": "^27.4.2",
+    "supertest": "^6.1.6"
+  }
+}

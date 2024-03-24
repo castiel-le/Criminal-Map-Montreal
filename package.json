@@ -1,0 +1,22 @@
+{
+  "name": "520-project-le-louis",
+  "version": "1.0.0",
+  "description": "A full-stack MERN application with visualization of the given dataset, as well as some performance considerations",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server/server.js",
+    "watch": "nodemon server/server.js",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/castiel1309/520-project-le-louis.git"
+  },
+  "author": "Castiel Le, Nael Louis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/castiel1309/520-project-le-louis/issues"
+  },
+  "homepage": "https://gitlab.com/castiel1309/520-project-le-louis#readme"
+}
